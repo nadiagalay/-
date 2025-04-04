@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Шифрування Цезаря</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input, button {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Шифрування тексту методом Цезаря</h1>
+    <label for="text">Введіть текст:</label><br>
+    <input type="text" id="text" placeholder="Ваш текст"><br>
+
+    <label for="shift">Введіть величину зсуву:</label><br>
+    <input type="number" id="shift" placeholder="Зсув"><br>
+
+    <button onclick="encryptText()">Зашифрувати</button>
+
+    <h2>Результат:</h2>
+    <p id="result"></p>
+
+    <script>
+        function caesarCipher(text, shift) {
+            let encryptedText = "";
+            for (let i = 0; i < text.length; i++) {
+                let char = text[i];
+                if (char.match(/[a-z]/i)) { // Перевірка, чи символ є літерою
+                    let code = text.charCodeAt(i);
+                    let offset = char === char.toUpperCase() ? 65 : 97;
+                    encryptedText += String.fromCharCode((code - offset + shift) % 26 + offset);
+                } else {
+                    encryptedText += char; // Залишаємо символ без змін
+                }
+            }
+            return encryptedText;
+        }
+
+        function encryptText() {
+            const text = document.getElementById("text").value;
+            const shift = parseInt(document.getElementById("shift").value);
+            
+            if (!text || isNaN(shift)) {
+                alert("Будь ласка, введіть текст і величину зсуву.");
+                return;
+            }
+
+            const result = caesarCipher(text, shift);
+            document.getElementById("result").innerText = result;
+        }
+    </script>
+</body>
+</html>
